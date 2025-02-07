@@ -159,7 +159,8 @@ def copy_dir(from_path: Path, to_path: Path, quiet: bool = False):
 	shutil.copytree(from_path, to_path, dirs_exist_ok=True)
 
 copy_dir(workspaces[template], path)
-copy_dir(configs[config],      path / f".{config}")
+if config:
+	copy_dir(configs[config], path / f".{config}")
 
 def ovewrite_template_name(path: Path):
 	for file in path.iterdir():
