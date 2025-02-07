@@ -13,6 +13,9 @@
 			"label": "CMake: Build",
 			"command": "build",
 			"preset": "${command:cmake.activeBuildPresetName}",
+			"targets": [
+				"${command:cmake.buildTargetName}"
+			],
 			"detail": "CMake build active preset"
 		}
 	]
