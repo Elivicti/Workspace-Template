@@ -5,7 +5,6 @@
 			"name": "CMake Target",
 			"type": "cppdbg",
 			"request": "launch",
-			"preLaunchTask": "CMake: Build",
 			"program": "${command:cmake.launchTargetPath}",
 			"cwd": "${workspaceFolder}",
 			"args": [
