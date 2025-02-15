@@ -2,7 +2,17 @@
 	"version": "0.2.0",
 	"configurations": [
 		{
-			"name": "CMake Target",
+			"name": "CMake Target (MSVC)",
+			"type": "cppvsdbg",
+			"request": "launch",
+			"program": "${command:cmake.launchTargetPath}",
+			"cwd": "${workspaceFolder}",
+			"console": "integratedTerminal",
+			"args": [
+			]
+		},
+		{
+			"name": "CMake Target (GDB/LLDB)",
 			"type": "cppdbg",
 			"request": "launch",
 			"program": "${command:cmake.launchTargetPath}",
