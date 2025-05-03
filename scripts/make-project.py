@@ -24,11 +24,11 @@ for dir in TEMPLATE_ROOT.iterdir():
 def print_info():
 	print("availible configs:")
 	for key, p in configs.items():
-		print('  ', key, p.relative_to(TEMPLATE_ROOT.parent))
+		print('  ', f'{key:<10s}', p.relative_to(TEMPLATE_ROOT.parent))
 	print()
 	print("availible workspace templates:")
 	for key, p in workspaces.items():
-		print('  ', key, p.relative_to(TEMPLATE_ROOT.parent))
+		print('  ', f'{key:<10s}', p.relative_to(TEMPLATE_ROOT.parent))
 
 
 parser = ArgumentParser(description='Create a new project from a template')
@@ -163,6 +163,8 @@ if config:
 	copy_dir(configs[config], path / f".{config}")
 
 def ovewrite_template_name(path: Path):
+	if path.name.startswith("."):
+		return
 	for file in path.iterdir():
 		if file.is_dir():
 			ovewrite_template_name(file)
