@@ -14,6 +14,7 @@
 			"installDir": "${sourceDir}/build/${presetName}/install",
 			"cacheVariables": {
 				"CMAKE_EXPORT_COMPILE_COMMANDS": true,
+				"CMAKE_EXPORT_COMPILE_COMMANDS_DIR": "${sourceDir}/build/",
 				"CMAKE_CXX_EXTENSIONS": false
 			}
 		},
