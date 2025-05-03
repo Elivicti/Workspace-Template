@@ -47,7 +47,7 @@
 			"hidden": true,
 			"toolchainFile": "$env{VCPKG_ROOT}/scripts/buildsystems/vcpkg.cmake",
 			"cacheVariables": {
-                "#Qt6_DIR": "$env{Qt6}/msvc2019_64/lib/cmake/Qt6"
+				"#Qt6_ROOT": "$env{Qt6}/msvc2019_64/"
 			},
 			"condition": {
 				"type": "equals",
