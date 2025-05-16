@@ -1,0 +1,16 @@
+{
+	"$schema": "../schemas/template.json",
+	"title": "C++ Workspace Templates",
+	"description": "",
+	"variants": {
+		"default": {
+			"alias": [ "generic", "cmdline" ],
+			"path": "default"
+		},
+		"qt": {
+			"alias": [ "gui-qt" ],
+			"path": "qt"
+		}
+	},
+	"default": "default"
+}
