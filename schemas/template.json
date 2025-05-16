@@ -1,0 +1,50 @@
+{
+	"$schema": "http://json-schema.org/draft-07/schema#",
+	"type": "object",
+	"properties": {
+		"$schema": {
+			"type": "string"
+		},
+		"title": {
+			"type": "string"
+		},
+		"description": {
+			"type": "string"
+		},
+		"variants": {
+			"type": "object",
+			"minProperties": 1,
+			"patternProperties": {
+				"^[A-Za-z_][A-Za-z0-9_-]*$": {
+					"type": "object",
+					"properties": {
+						"alias": {
+							"type": "array",
+							"items": {
+								"type": "string",
+								"pattern": "^[A-Za-z_][A-Za-z0-9_-]*$",
+								"minLength": 1
+							},
+							"uniqueItems": true
+						},
+						"path": {
+							"type": "string"
+						}
+					},
+					"required": [ "path" ],
+					"additionalProperties": false
+				}
+			},
+			"additionalProperties": false
+		},
+		"default": {
+			"type": "string",
+			"pattern": "^[A-Za-z_][A-Za-z0-9_-]*$"
+		}
+	},
+	"required": [
+		"variants",
+		"default"
+	],
+	"additionalProperties": false
+}
