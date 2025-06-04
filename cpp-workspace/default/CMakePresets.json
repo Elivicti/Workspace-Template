@@ -23,7 +23,8 @@
 			"hidden": true,
 			"cacheVariables": {
 				"CMAKE_C_COMPILER": "cl.exe",
-				"CMAKE_CXX_COMPILER": "cl.exe"
+				"CMAKE_CXX_COMPILER": "cl.exe",
+				"CMAKE_LINKER": "link.exe"
 			}
 		},
 		{
@@ -35,6 +36,14 @@
 			}
 		},
 		{
+			"name": "compiler-clang",
+			"hidden": true,
+			"cacheVariables": {
+				"CMAKE_C_COMPILER": "clang",
+				"CMAKE_CXX_COMPILER": "clang++"
+			}
+		},
+		{
 			"name": "x64-base",
 			"hidden": true,
 			"inherits": "base",
@@ -43,6 +52,7 @@
 				"strategy": "external"
 			}
 		},
+
 		{
 			"name": "sys-windows",
 			"hidden": true,
