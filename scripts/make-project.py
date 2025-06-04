@@ -152,7 +152,45 @@ def truncate(s: str, max_len: int, postfix: Optional[str] = "..."):
 		return s
 	return f"{s[0:max_len]}{postfix or ''}"
 
-def print_info():
+def find_by_name(data: dict[str, Template], name: str):
+	if t := data.get(name):
+		return t
+	for _, t in data.items():
+		if v := t.variants.get(name):
+			return v
+	return None
+
+def print_template_variant_info(d: Template | Variant, type: str):
+	if isinstance(d, Template):
+		print(d.title)
+		print(d.description)
+		print(str(d.path.relative_to(TEMPLATE_ROOT)))
+		print(d.variants)
+		return
+	if isinstance(d, Variant):
+		pass
+
+
+def print_info(name: str = "all"):
+	if name != "all":
+		item: Template | None = None
+		item = workspaces.get(name) or configs.get(name)
+		if not item:
+			raise RuntimeError(f"template with name \"{name}\" not found")
+		print(
+			f"{item.title}\n"
+			f"{item.description or '<no description>'}\n"
+			"\n"
+			"path:\n"
+			f"  {item.path.name}\n"
+			"variants:"
+		)
+		for n, v in item.variants.items():
+			indent = (n == item.default) and " *" or "  "
+			alias  =  v.alias and f" (alias: {','.join(v.alias)})" or ""
+			print(f"{indent}{v.name:<12s} {v.path.name:<15s}{alias}")
+		return
+
 	def p_info(name: str, data: dict[str, Template], newline="\n"):
 		print(name)
 		for key, t in data.items():
@@ -179,8 +217,11 @@ required_group.add_argument(
 	help="the name of the project"
 )
 required_group.add_argument(
-	"-l", "--list", action="store_true",
-	help="list available templates and configs"
+	"-l", "--list", type=str,
+	nargs="?",
+	const="all", default=None,
+	help="list available templates and configs",
+	metavar="NAME"
 )
 
 parser.add_argument(
@@ -204,7 +245,7 @@ parser.add_argument(
 args = parser.parse_args()
 
 if args.list:
-	print_info()
+	print_info(args.list)
 	exit(0)
 
 def check_template(template_name: str | None):
