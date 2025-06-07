@@ -14,7 +14,6 @@
 			"installDir": "${sourceDir}/build/${presetName}/install",
 			"cacheVariables": {
 				"CMAKE_EXPORT_COMPILE_COMMANDS": true,
-				"CMAKE_EXPORT_COMPILE_COMMANDS_DIR": "${sourceDir}/build",
 				"CMAKE_CXX_EXTENSIONS": false
 			}
 		},
@@ -58,7 +57,6 @@
 			"hidden": true,
 			"toolchainFile": "$env{VCPKG_ROOT}/scripts/buildsystems/vcpkg.cmake",
 			"cacheVariables": {
-				"#Qt6_ROOT": "$env{Qt6}/msvc2019_64/"
 			},
 			"condition": {
 				"type": "equals",
