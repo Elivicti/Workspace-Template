@@ -26,7 +26,7 @@
 				"CMAKE_LINKER": "link.exe"
 			},
 			"environment": {
-				"MSVC_FLAGS": "/utf-8",
+				"MSVC_FLAGS": "/source-charset:utf-8",
 				"CXXFLAGS": "$env{MSVC_FLAGS}",
 				"CFLAGS": "$env{MSVC_FLAGS}"
 			}
