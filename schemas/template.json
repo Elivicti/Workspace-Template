@@ -29,6 +29,9 @@
 						},
 						"path": {
 							"type": "string"
+						},
+						"inherits": {
+							"type": "string"
 						}
 					},
 					"required": [ "path" ],
@@ -43,8 +46,7 @@
 		}
 	},
 	"required": [
-		"variants",
-		"default"
+		"variants"
 	],
 	"additionalProperties": false
 }
