@@ -1,4 +1,0 @@
-
-
-class InvalidConfiguration(RuntimeError):
-    pass
