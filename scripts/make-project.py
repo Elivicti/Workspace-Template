@@ -99,6 +99,7 @@ class Workspace(Template):
         self._variants: list[VariantInfo] = []
         self._schema = schema
         self._project_file_patterns: list[str] = []
+        self._delete_marker: str = ".#delete"
 
         self._get_workspace_info()
 
@@ -118,6 +119,12 @@ class Workspace(Template):
                 setattr(self, attr_name, v)
             elif isinstance(attr, list) and isinstance(v, list):
                 setattr(self, attr_name, v)
+
+        if not self._delete_marker:
+            self._delete_marker = ".#delete"
+
+        if not self._delete_marker.startswith("."):
+            self._delete_marker = f".{self._delete_marker}"
 
         variants: dict[str, Any] = data["variants"]
         for name, v in variants.items():
@@ -191,8 +198,11 @@ class Workspace(Template):
             return
 
         for file in variant.raw_files:
-            seen_file.add(file.file)
-            yield file
+            if file.file.suffix == self._delete_marker:
+                seen_file.add(file.file.with_suffix(""))
+            else:
+                seen_file.add(file.file)
+                yield file
 
         if not variant.inherits:
             return

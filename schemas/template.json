@@ -48,6 +48,11 @@
 			},
 			"description": "an array of regular expressions, used to check if file is considered as project file, in which '#<name>#' is searched and replaced with actual project name"
 		},
+		"delete_marker": {
+			"type": "string",
+			"pattern": "^\\..+$",
+			"description": "file suffix that indicates this file shall be removed from inheritance, defauts to '.#delete'"
+		},
 		"default": {
 			"type": "string",
 			"pattern": "^[A-Za-z_][A-Za-z0-9_-]*$"
