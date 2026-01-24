@@ -90,7 +90,8 @@ class VariantInfo:
 
     def brief(self, *, name_align: int = 0, path_align: int = 0):
         rel_path = f"{self._workspace_dir.name}/{self.path.name:<{path_align}}"
-        return f"{self.name:<{name_align}} {rel_path} ({','.join(self.alias)})"
+        alias_str = self.alias and f"({','.join(self.alias)})" or ""
+        return f"{self.name:<{name_align}} {rel_path} {alias_str}"
 
 class Workspace(Template):
     def __init__(self, name: str, path: Path, schema: Path | None) -> None:
@@ -170,15 +171,19 @@ class Workspace(Template):
 
     def variant_detail(self, variant: str | None = None):
         var = self.get_variant(variant)
-        return "\n".join([
-            f"[{type(self).__name__} Variant]: {self.name}:{var.name}\n",
-            f"alias:",
-            f"{'\n'.join([f'  {v}' for v in var.alias])}\n",
+        lines: list[str] = [ f"[{type(self).__name__} Variant]: {self.name}:{var.name}\n", ]
+        if var.alias:
+            lines += [
+                f"alias:",
+                f"{'\n'.join([f'  {v}' for v in var.alias])}\n",
+            ]
+        lines += [
             f"path:",
             f"  {self.path.parent.name}/{self.path.name}/{var.path}\n",
             f"files:",
             f"{'\n'.join([f'  {f.directory.name}/{f.file}' for f in self.get_files(var)])}"
-        ])
+        ]
+        return "\n".join(lines)
 
     def _get_files_impl(
         self,
