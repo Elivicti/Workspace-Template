@@ -98,6 +98,7 @@ class Workspace(Template):
         self._default: str = ""
         self._variants: list[VariantInfo] = []
         self._schema = schema
+        self._project_file_patterns: list[str] = []
 
         self._get_workspace_info()
 
@@ -110,7 +111,12 @@ class Workspace(Template):
 
         for k, v in data.items():
             attr_name = f"_{k}"
-            if hasattr(self, attr_name) and isinstance(getattr(self, attr_name), str) and isinstance(v, str):
+            if not hasattr(self, attr_name):
+                continue
+            attr = getattr(self, attr_name)
+            if isinstance(attr, str) and isinstance(v, str):
+                setattr(self, attr_name, v)
+            elif isinstance(attr, list) and isinstance(v, list):
                 setattr(self, attr_name, v)
 
         variants: dict[str, Any] = data["variants"]
@@ -202,11 +208,14 @@ class Workspace(Template):
     def get_files(self, variant: str | VariantInfo | None = None):
         return self._get_files_impl(variant)
 
-    def create_workspace(self, path: Path | str, variant: str | VariantInfo | None = None, *, verbose: bool = False, dry_run: bool = False):
+    def create_workspace(self, path: Path | str, variant: str | VariantInfo | None = None, *, project_name: str | None = None, verbose: bool = False, dry_run: bool = False):
         if not isinstance(path, Path):
             path = Path(path)
         if path.exists() and not path.is_dir():
             raise RuntimeError(f"{self._name}: failed to create workspace, '{path}' is not a directory")
+
+        if not project_name:
+            project_name = path.name
 
         verbose = verbose or dry_run
 
@@ -218,9 +227,27 @@ class Workspace(Template):
 
         for f in files:
             target = path / f.file
-            if not dry_run:
-                (path / f.file.parent).mkdir(parents=True, exist_ok=True)
-                copy_file(f.full_path, target)
+            if dry_run:
+                print(f"  {str(f.file):<{max_len}} -> {target}")
+                continue
+
+            (path / f.file.parent).mkdir(parents=True, exist_ok=True)
+            copy_file(f.full_path, target)
+
+            try:
+                for pattern in self._project_file_patterns:
+                    if not re.search(pattern, target.name):
+                        continue
+
+                    with open(target, "r", encoding="utf-8") as fs:
+                        buf = fs.read()
+                    with open(target, "wt+", encoding="utf-8") as fs:
+                        fs.write(buf.replace(f"#{self.name}#", project_name))
+                    break
+            except:
+                print(f"WARN:", file=stderr)
+
+
             if verbose:
                 print(f"  {str(f.file):<{max_len}} -> {target}")
 

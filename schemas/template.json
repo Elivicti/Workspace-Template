@@ -40,6 +40,14 @@
 			},
 			"additionalProperties": false
 		},
+		"project_file_patterns": {
+			"type": "array",
+			"items": {
+				"type": "string",
+				"format": "regex"
+			},
+			"description": "an array of regular expressions, used to check if file is considered as project file, in which '#<name>#' is searched and replaced with actual project name"
+		},
 		"default": {
 			"type": "string",
 			"pattern": "^[A-Za-z_][A-Za-z0-9_-]*$"
