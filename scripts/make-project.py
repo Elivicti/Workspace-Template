@@ -1,4 +1,5 @@
 from pathlib import Path
+import shutil
 from sys import stderr
 from shutil import copy2 as copy_file
 from abc import ABC, abstractmethod
@@ -265,6 +266,12 @@ class Workspace(Template):
 
             if verbose:
                 print(f"  {str(f.file):<{max_len}} -> {target}")
+
+        for dir in path.iterdir():
+            if not dir.is_dir():
+                continue
+            if dir.name == f"#{self.name}#":
+                shutil.move(dir, dir.with_name(project_name))
 
 class Config(Template):
     def __init__(self, name: str, path: Path, title: str | None = None, description: str | None = None) -> None:
