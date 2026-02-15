@@ -243,8 +243,15 @@ class Workspace(Template):
             max_len = max(len(str(f.file)), max_len)
             files.append(f)
 
+        project_name_ph     = f"#{self.name}#".lower()
+        project_name_ph_cap = f"#{self.name}#".upper()
+
         for f in files:
-            target = path / str(f.file).replace(f"#{self.name}#", project_name)
+            target = (
+                path / str(f.file)
+                .replace(project_name_ph,     project_name)
+                .replace(project_name_ph_cap, project_name.upper())
+            )
             if dry_run:
                 print(f"  {str(f.file):<{max_len}} -> {target}")
                 continue
@@ -258,12 +265,16 @@ class Workspace(Template):
                         continue
 
                     with open(target, "r", encoding="utf-8") as fs:
-                        buf = fs.read()
+                        buf = (
+                            fs.read()
+                            .replace(project_name_ph,     project_name)
+                            .replace(project_name_ph_cap, project_name.upper())
+                        )
                     with open(target, "wt+", encoding="utf-8") as fs:
-                        fs.write(buf.replace(f"#{self.name}#", project_name))
+                        fs.write(buf)
                     break
-            except:
-                print(f"WARN:", file=stderr)
+            except Exception as e:
+                print(f"WARN: {e}", file=stderr)
 
 
             if verbose:
