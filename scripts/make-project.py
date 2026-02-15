@@ -244,12 +244,12 @@ class Workspace(Template):
             files.append(f)
 
         for f in files:
-            target = path / f.file
+            target = path / str(f.file).replace(f"#{self.name}#", project_name)
             if dry_run:
                 print(f"  {str(f.file):<{max_len}} -> {target}")
                 continue
 
-            (path / f.file.parent).mkdir(parents=True, exist_ok=True)
+            target.parent.mkdir(parents=True, exist_ok=True)
             copy_file(f.full_path, target)
 
             try:
@@ -268,12 +268,6 @@ class Workspace(Template):
 
             if verbose:
                 print(f"  {str(f.file):<{max_len}} -> {target}")
-
-        for dir in path.iterdir():
-            if not dir.is_dir():
-                continue
-            if dir.name == f"#{self.name}#":
-                shutil.move(dir, dir.with_name(project_name))
 
 class Config(Template):
     def __init__(self, name: str, path: Path, title: str | None = None, description: str | None = None) -> None:
