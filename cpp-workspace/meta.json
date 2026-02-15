@@ -3,9 +3,11 @@
 	"title": "C++ Workspace Templates",
 	"description": "",
 	"variants": {
+		"base": { "path": "base" },
 		"default": {
 			"alias": [ "generic", "cmdline" ],
-			"path": "default"
+			"path": "default",
+			"inherits": "base"
 		},
 		"qt": {
 			"alias": [ "gui-qt" ],
