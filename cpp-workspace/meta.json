@@ -11,7 +11,8 @@
 		},
 		"qt": {
 			"alias": [ "gui-qt" ],
-			"path": "qt"
+			"path": "qt",
+			"inherits": "default"
 		}
 	},
 	"project_file_patterns": [ "CMakeLists.txt" ],
