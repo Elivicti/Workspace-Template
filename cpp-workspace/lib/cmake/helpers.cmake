@@ -1,0 +1,44 @@
+
+macro(declare_component COMP_NAME)
+	string(TOUPPER ${COMP_NAME} COMP_NAME_CAP)
+	file(GLOB SRCS CONFIGURE_DEPENDS "source/*.cpp")
+
+	add_library(${COMP_NAME} ${SRCS})
+
+	target_include_directories(
+		${COMP_NAME}
+		PUBLIC
+			$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
+			$<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}>
+			$<INSTALL_INTERFACE:include>
+	)
+	set_target_properties(
+		${COMP_NAME} PROPERTIES
+			CXX_STANDARD          ${CMAKE_CXX_STANDARD}
+			CXX_STANDARD_REQUIRED ${CMAKE_CXX_STANDARD_REQUIRED}
+			CXX_EXTENSIONS        ${CMAKE_CXX_EXTENSIONS}
+	)
+	target_compile_features(${COMP_NAME} PUBLIC cxx_std_${CMAKE_CXX_STANDARD})
+
+	generate_export_header(
+		${COMP_NAME}
+		BASE_NAME        ${COMP_NAME_CAP}
+		EXPORT_FILE_NAME ${PROJECT_NAME}Api.h
+	)
+	if (NOT BUILD_SHARED_LIBS)
+		target_compile_definitions(${COMP_NAME} PUBLIC ${COMP_NAME_CAP}_STATIC_DEFINE=1)
+	endif()
+
+	list(APPEND PROJECT_COMPONENTS ${COMP_NAME})
+	set(PROJECT_COMPONENTS ${PROJECT_COMPONENTS} PARENT_SCOPE)
+
+	# --- install rules --- #
+	install(
+		DIRECTORY   include/${COMP_NAME}
+		DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}
+	)
+	install(
+		FILES       ${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}Api.h
+		DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/${COMP_NAME}
+	)
+endmacro()

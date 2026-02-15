@@ -9,12 +9,16 @@
 			"path": "default",
 			"inherits": "base"
 		},
+		"lib": {
+			"path": "lib",
+			"inherits": "base"
+		},
 		"qt": {
 			"alias": [ "gui-qt" ],
 			"path": "qt",
 			"inherits": "default"
 		}
 	},
-	"project_file_patterns": [ "CMakeLists.txt" ],
+	"project_file_patterns": [ "CMakeLists.txt", ".h", ".cpp" ],
 	"default": "default"
 }
