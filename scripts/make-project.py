@@ -6,7 +6,7 @@ from abc import ABC, abstractmethod
 from dataclasses import dataclass
 import json, re
 
-from typing import Generator, Mapping, NoReturn
+from typing import Generator, Mapping, NoReturn, override
 
 class Template(ABC):
     def __init__(self, name: str, path: Path, title: str | None = None, description: str | None = None) -> None:
@@ -157,9 +157,11 @@ class Workspace(Template):
     @property
     def default(self): return self._default
 
+    @override
     def brief(self, *, name_align: int = 0, path_align: int = 0, **_):
         return f"{self.name:<{name_align}} {self.path.name:<{path_align}} ({','.join(v.name for v in self.variants)})"
 
+    @override
     def detail(self, **align_args):
         return "\n".join([
             f"[{type(self).__name__}]: {self.name}\n",
@@ -302,9 +304,11 @@ class Config(Template):
             if verbose:
                 print(f"  {str(rel_path):<{max_len}} -> {target}")
 
+    @override
     def brief(self, *, name_align: int = 0, path_align: int = 0, **_) -> str:
         return f"{self.name:<{name_align}} {self.path.name:<{path_align}}"
 
+    @override
     def detail(self, **_) -> str:
         return "\n".join([
             f"[{type(self).__name__}]: {self.name}\n",
