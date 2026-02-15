@@ -14,5 +14,6 @@
 			"path": "qt"
 		}
 	},
+	"project_file_patterns": [ "CMakeLists.txt" ],
 	"default": "default"
 }
