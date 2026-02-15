@@ -24,11 +24,6 @@
 				"CMAKE_C_COMPILER": "cl.exe",
 				"CMAKE_CXX_COMPILER": "cl.exe",
 				"CMAKE_LINKER": "link.exe"
-			},
-			"environment": {
-				"MSVC_FLAGS": "/source-charset:utf-8",
-				"CXXFLAGS": "$env{MSVC_FLAGS}",
-				"CFLAGS": "$env{MSVC_FLAGS}"
 			}
 		},
 		{
