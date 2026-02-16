@@ -2,11 +2,13 @@ cmake_minimum_required(VERSION 3.21)
 
 file(GLOB HEADERS CONFIGURE_DEPENDS "${INCLUDE_DIR}/*.h")
 file(GLOB SRCS    CONFIGURE_DEPENDS "*.cpp")
+file(GLOB UI      CONFIGURE_DEPENDS "ui/*.ui")
 
-qt_add_executable(
+qt6_add_executable(
 	${PROJECT_NAME}
 		${SRCS}
 		${HEADERS}
+		${UI}
 )
 
 target_link_libraries(
@@ -15,11 +17,7 @@ target_link_libraries(
 		Qt6::Widgets
 )
 
-# Disables console window on Windows if ENABLE_CONSOLE is set to OFF (Qt Specific)
-if (NOT ${ENABLE_CONSOLE})
-	set_target_properties(
-		${PROJECT_NAME}
-		PROPERTIES
-			WIN32_EXECUTABLE ON
-	)
+if (WIN32 AND DISABLE_CONSOLE)
+	# Disables console window on Windows
+	set_target_properties(${PROJECT_NAME} PROPERTIES WIN32_EXECUTABLE ON)
 endif()
