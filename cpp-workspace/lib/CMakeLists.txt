@@ -10,8 +10,6 @@ project("#cpp#" VERSION 1.0 LANGUAGES CXX)
 
 option(BUILD_EXAMPLE "build examples" ${PROJECT_IS_TOP_LEVEL})
 
-set(CMAKE_CXX_EXTENSIONS OFF)
-
 if (MSVC)
 	add_compile_options(/source-charset:utf-8)
 	set(CMAKE_DEBUG_POSTFIX d)
