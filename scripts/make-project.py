@@ -244,7 +244,11 @@ class Workspace(Template):
             files.append(f)
 
         project_name_ph     = f"#{self.name}#".lower()
-        project_name_ph_cap = f"#{self.name}#".upper()
+        project_name_ph_cap =  project_name_ph.upper()
+
+        sanitized_project_name        = re.sub(r"[^a-zA-Z0-9_]", "_", project_name.strip())
+        sanitized_project_name_ph     = f"&{self.name}&".lower()
+        sanitized_project_name_ph_cap = sanitized_project_name_ph.upper()
 
         for f in files:
             target = (
@@ -269,6 +273,8 @@ class Workspace(Template):
                             fs.read()
                             .replace(project_name_ph,     project_name)
                             .replace(project_name_ph_cap, project_name.upper())
+                            .replace(sanitized_project_name_ph,     sanitized_project_name)
+                            .replace(sanitized_project_name_ph_cap, sanitized_project_name.upper())
                         )
                     with open(target, "wt+", encoding="utf-8") as fs:
                         fs.write(buf)

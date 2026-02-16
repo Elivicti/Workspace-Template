@@ -1,6 +1,7 @@
 
 macro(declare_component COMP_NAME)
 	string(TOUPPER ${COMP_NAME} COMP_NAME_CAP)
+	string(REGEX REPLACE "[^a-zA-Z0-9_]" "_" SANITIZED_COMP_NAME_CAP "${COMP_NAME_CAP}")
 	file(GLOB SRCS CONFIGURE_DEPENDS "source/*.cpp")
 
 	add_library(${COMP_NAME} ${SRCS})
@@ -22,11 +23,11 @@ macro(declare_component COMP_NAME)
 
 	generate_export_header(
 		${COMP_NAME}
-		BASE_NAME        ${COMP_NAME_CAP}
+		BASE_NAME        ${SANITIZED_COMP_NAME_CAP}
 		EXPORT_FILE_NAME ${PROJECT_NAME}Api.h
 	)
 	if (NOT BUILD_SHARED_LIBS)
-		target_compile_definitions(${COMP_NAME} PUBLIC ${COMP_NAME_CAP}_STATIC_DEFINE=1)
+		target_compile_definitions(${COMP_NAME} PUBLIC ${SANITIZED_COMP_NAME_CAP}_STATIC_DEFINE=1)
 	endif()
 
 	list(APPEND PROJECT_COMPONENTS ${COMP_NAME})
