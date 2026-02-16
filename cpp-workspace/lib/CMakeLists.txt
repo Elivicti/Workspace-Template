@@ -14,6 +14,7 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 
 if (MSVC)
 	add_compile_options(/source-charset:utf-8)
+	set(CMAKE_DEBUG_POSTFIX d)
 endif()
 
 include(GenerateExportHeader)
