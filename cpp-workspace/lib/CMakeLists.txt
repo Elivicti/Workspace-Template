@@ -29,7 +29,12 @@ foreach(comp ${PROJECT_COMPONENTS})
 	add_library(${PROJECT_NAMESPACE}::${comp} ALIAS ${comp})
 	target_compile_options(${comp} PUBLIC $<$<CXX_COMPILER_ID:MSVC>:/Zc:preprocessor>)
 
-	if(MSVC)
+	if(NOT MSVC)
+		continue()
+	endif()
+
+	get_target_property(comp_type ${comp} TYPE)
+	if (comp_type STREQUAL "SHARED_LIBRARY")
 		install(
 			FILES $<TARGET_PDB_FILE:${comp}>
 			DESTINATION ${CMAKE_INSTALL_BINDIR}
