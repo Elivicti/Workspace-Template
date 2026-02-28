@@ -7,6 +7,7 @@ if (POLICY CMP0141)
 endif()
 
 project("#cpp#" VERSION 1.0 LANGUAGES CXX)
+string(REGEX REPLACE "[^a-zA-Z0-9_]" "_" SANITIZED_PROJECT_NAME "${PROJECT_NAME}")
 
 option(BUILD_EXAMPLE "build examples" ${PROJECT_IS_TOP_LEVEL})
 
