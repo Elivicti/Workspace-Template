@@ -18,5 +18,5 @@ file(GLOB SRCS CONFIGURE_DEPENDS "source/*.cpp")
 add_executable(${PROJECT_NAME} ${SRCS})
 
 target_include_directories(${PROJECT_NAME} PRIVATE include)
-target_compile_options({PROJECT_NAME} PUBLIC $<$<CXX_COMPILER_ID:MSVC>:/Zc:preprocessor>)
+target_compile_options(${PROJECT_NAME} PUBLIC $<$<CXX_COMPILER_ID:MSVC>:/Zc:preprocessor>)
 
