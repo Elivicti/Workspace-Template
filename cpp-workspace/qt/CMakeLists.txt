@@ -16,7 +16,18 @@ set(CMAKE_AUTOUIC ON)
 set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTORCC ON)
 find_package(Qt6 REQUIRED COMPONENTS Widgets)
-qt6_standard_project_setup()
+
+set(QT6_I18N_SOURCE_LANGUAGE en)
+set(QT6_I18N_TRANSLATED_LANGUAGES zh_CN)
+
+if(Qt6_VERSION VERSION_GREATER_EQUAL "6.9.0")
+	qt6_standard_project_setup(
+		I18N_SOURCE_LANGUAGE      ${QT6_I18N_SOURCE_LANGUAGE}
+		I18N_TRANSLATED_LANGUAGES ${QT6_I18N_TRANSLATED_LANGUAGES}
+	)
+else()
+	qt6_standard_project_setup()
+endif()
 
 if(CMAKE_BUILD_TYPE STREQUAL "Release")
 	set(DISABLE_CONSOLE ON)

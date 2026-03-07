@@ -17,6 +17,23 @@ target_link_libraries(
 		Qt6::Widgets
 )
 
+if(Qt6_VERSION VERSION_GREATER_EQUAL "6.9.0")
+	qt6_add_translations(
+		${PROJECT_NAME} MERGE_QT_TRANSLATIONS
+		TS_OUTPUT_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/translations
+		LUPDATE_OPTIONS -no-obsolete
+	)
+else()
+	set(TS_FILES)
+	foreach(lang IN LISTS QT6_I18N_TRANSLATED_LANGUAGES)
+		list(APPEND TS_FILES ${CMAKE_CURRENT_SOURCE_DIR}/translations/${PROJECT_NAME}_${lang}.ts)
+	endforeach()
+	qt6_add_translations(${PROJECT_NAME}
+		TS_FILES ${TS_FILES}
+		LUPDATE_OPTIONS -no-obsolete
+	)
+endif()
+
 if (WIN32 AND DISABLE_CONSOLE)
 	# Disables console window on Windows
 	set_target_properties(${PROJECT_NAME} PROPERTIES WIN32_EXECUTABLE ON)
