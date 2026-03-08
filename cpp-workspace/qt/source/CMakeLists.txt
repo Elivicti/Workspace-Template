@@ -17,11 +17,19 @@ target_link_libraries(
 		Qt6::Widgets
 )
 
+target_compile_definitions(
+	${PROJECT_NAME}
+	PRIVATE
+		PROJECT_NAME="${PROJECT_NAME}"
+		PROJECT_VERSION="${PROJECT_VERSION}"
+)
+
+set(QT6_LUPDATE_OPTIONS -no-obsolete)
 if(Qt6_VERSION VERSION_GREATER_EQUAL "6.9.0")
 	qt6_add_translations(
-		${PROJECT_NAME} MERGE_QT_TRANSLATIONS
+		${PROJECT_NAME}
 		TS_OUTPUT_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/translations
-		LUPDATE_OPTIONS -no-obsolete
+		LUPDATE_OPTIONS ${QT6_LUPDATE_OPTIONS}
 	)
 else()
 	set(TS_FILES)
@@ -30,7 +38,7 @@ else()
 	endforeach()
 	qt6_add_translations(${PROJECT_NAME}
 		TS_FILES ${TS_FILES}
-		LUPDATE_OPTIONS -no-obsolete
+		LUPDATE_OPTIONS ${QT6_LUPDATE_OPTIONS}
 	)
 endif()
 

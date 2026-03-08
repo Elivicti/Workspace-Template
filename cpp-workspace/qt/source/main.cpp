@@ -5,6 +5,8 @@
 int main(int argc, char* argv[])
 {
 	QApplication app{ argc, argv };
+	Translator::instance();
+
 	MainWindow w;
 	w.show();
 
