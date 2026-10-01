@@ -24,6 +24,14 @@ target_compile_definitions(
 		PROJECT_VERSION="${PROJECT_VERSION}"
 )
 
+target_compile_options(
+	${PROJECT_NAME} PRIVATE
+		$<$<CXX_COMPILER_ID:MSVC>:/Zc:preprocessor /source-charset:utf-8>
+		$<$<CXX_COMPILER_ID:MSVC>:/W4>
+
+		$<$<CXX_COMPILER_ID:GNU,Clang>:-Wall -Wextra>
+)
+
 set(QT6_LUPDATE_OPTIONS -no-obsolete)
 if(Qt6_VERSION VERSION_GREATER_EQUAL "6.9.0")
 	qt6_add_translations(

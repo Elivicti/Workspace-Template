@@ -9,14 +9,16 @@ endif()
 
 project("#cpp#" VERSION 1.0 LANGUAGES CXX)
 
-if (MSVC)
-	add_compile_options(/source-charset:utf-8)
-endif()
-
 file(GLOB SRCS CONFIGURE_DEPENDS "source/*.cpp")
 
 add_executable(${PROJECT_NAME} ${SRCS})
 
 target_include_directories(${PROJECT_NAME} PRIVATE include)
-target_compile_options(${PROJECT_NAME} PUBLIC $<$<CXX_COMPILER_ID:MSVC>:/Zc:preprocessor>)
+target_compile_options(
+	${PROJECT_NAME} PRIVATE
+		$<$<CXX_COMPILER_ID:MSVC>:/Zc:preprocessor /source-charset:utf-8>
+		$<$<CXX_COMPILER_ID:MSVC>:/W4>
+
+		$<$<CXX_COMPILER_ID:GNU,Clang>:-Wall -Wextra>
+)
 
